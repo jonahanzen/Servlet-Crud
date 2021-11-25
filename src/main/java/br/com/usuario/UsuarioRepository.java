@@ -7,9 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.login.Login;
 import br.com.telefone.TelefoneRepository;
 import br.com.utils.Conexao;
 
+/**
+ * Classe responsavel por conter os metodos de CRUD no banco de dados de
+ * {@link Usuario}
+ */
 public class UsuarioRepository {
 
 	private Connection conn;
@@ -20,7 +25,13 @@ public class UsuarioRepository {
 		}
 	}
 
-	
+	/**
+	 * Metodo responsavel por incluir um usuario no banco de dados O metodo recebe
+	 * um objeto usuario com as propriedades String usuario, String email e String
+	 * senha
+	 * 
+	 * @param usuario com usuario, email e senha
+	 */
 	public void incluirUsuario(Usuario usuario) {
 		final String sql = "INSERT INTO USUARIO " + "(usuario, email, senha) " + "VALUES (?,?,?);";
 
@@ -37,6 +48,13 @@ public class UsuarioRepository {
 		}
 	}
 
+	/**
+	 * Metodo responsavel por incluir um usuario no banco de dados
+	 * 
+	 * @param usuario a ser incluido
+	 * @param email   a ser incluido
+	 * @param senha   a ser incluido
+	 */
 	public void incluirUsuario(String usuario, String email, String senha) {
 		String sql = null;
 		sql = "INSERT INTO USUARIO " + "(usuario, email, senha) " + "VALUES (?,?,?);";
@@ -53,6 +71,16 @@ public class UsuarioRepository {
 		}
 	}
 
+	/**
+	 * Metodo responsavel por consultar o Id de um usuario especifico a partir de
+	 * usuario e senha
+	 * 
+	 * @see {@link Login}
+	 * 
+	 * @param nomeUsuario  a ser consultado
+	 * @param senhaUsuario a ser consultado
+	 * @return Id do usuario da consulta
+	 */
 	public Integer consultarIdUsuario(String nomeUsuario, String senhaUsuario) {
 		String sql = null;
 		sql = "SELECT id FROM Usuario WHERE usuario = ? AND senha = ?;";
@@ -73,7 +101,13 @@ public class UsuarioRepository {
 
 		return null;
 	}
-	
+
+	/**
+	 * Metodo responsavel por consultar um usuario especifico a partir da Id
+	 * 
+	 * @param idUsuario a ser consultado
+	 * @return Usuario da consulta
+	 */
 	public Usuario consultarUnicoUsuario(int idUsuario) {
 		final String sql = "SELECT * FROM Usuario where id = ?;";
 		try {
@@ -86,7 +120,7 @@ public class UsuarioRepository {
 				usuario.setUsuario(rs.getString("usuario"));
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
-				return usuario;	
+				return usuario;
 			}
 		} catch (Exception e) {
 			System.out.println("Nao foi possivel consultar usuario");
@@ -94,8 +128,12 @@ public class UsuarioRepository {
 		}
 		return null;
 	}
-	
 
+	/**
+	 * Metodo responsavel por consultar todos os usuarios
+	 * 
+	 * @return List de usuarios da consulta
+	 */
 	public List<Usuario> todosUsuarios() throws SQLException {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		final String sql = "SELECT * FROM Usuario ORDER BY id;";
@@ -116,6 +154,14 @@ public class UsuarioRepository {
 		return usuarios;
 	}
 
+	/**
+	 * Metodo responsavel por alterar usuario no banco de dados
+	 * 
+	 * @param idUsuario a ser alterado
+	 * @param novoNome  para alterar
+	 * @param novoEmail para alterar
+	 * @param novaSenha para alterar
+	 */
 	public void alterarUsuario(int idUsuario, String novoNome, String novoEmail, String novaSenha) {
 		String sql = "UPDATE Usuario " + "SET usuario=?, email=?, senha=? " + "WHERE id=?";
 		try {
@@ -130,6 +176,11 @@ public class UsuarioRepository {
 		}
 	}
 
+	/**
+	 * Metodo responsavel por deletar um usuario no banco de dados
+	 * 
+	 * @param idUsuario a ser deletado
+	 */
 	public void deletarUsuario(int idUsuario) {
 		TelefoneRepository telefoneRepository = new TelefoneRepository();
 		telefoneRepository.deletarTelefoneUsuario(idUsuario);

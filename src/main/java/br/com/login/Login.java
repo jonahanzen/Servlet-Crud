@@ -33,9 +33,11 @@ public class Login extends HttpServlet {
 		String emailUsuario = (String) request.getParameter("email");
 
 		if (nomeUsuario != null && senhaUsuario != null) {
+			// Se nao mandar email, consultar no banco
 			if (emailUsuario == null) {
 			idUsuario = usuarioRepository.consultarIdUsuario(nomeUsuario, senhaUsuario);
 			} else {
+				//Se mandar email, incluir no banco
 				usuarioRepository.incluirUsuario(nomeUsuario, emailUsuario, senhaUsuario);
 				idUsuario = usuarioRepository.consultarIdUsuario(nomeUsuario, senhaUsuario);
 			}

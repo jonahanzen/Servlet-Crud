@@ -31,6 +31,7 @@ public class LoginFilter implements Filter {
 		boolean estaLogado = session != null && session.getAttribute("usuario") != null && session.getAttribute("idUsuario") != null;
 		boolean loginRequest = request.getRequestURI().equals(loginURI);
 
+		
 		if (estaLogado || loginRequest) {
 			chain.doFilter(request, response);
 		} else {
