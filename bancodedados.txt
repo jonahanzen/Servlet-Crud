@@ -1,0 +1,21 @@
+COMANDO BANCO DE DADOS
+
+
+-- Tabela para Usuario
+drop table if exists usuario;
+create table usuario (
+id serial primary key,
+usuario varchar not null,
+email varchar not null,
+senha varchar not null
+);
+
+-- Tabela para Telefone
+drop table if exists telefone;
+create table telefone (
+id serial primary key,
+ddd int not null,
+numero varchar not null,
+tipo varchar not null,
+usuario_id int references usuario(id)
+);
