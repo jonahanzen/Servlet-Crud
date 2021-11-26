@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.login.Login;
+import br.com.login.LoginController;
 import br.com.telefone.TelefoneRepository;
 import br.com.utils.Conexao;
 
@@ -75,7 +75,7 @@ public class UsuarioRepository {
 	 * Metodo responsavel por consultar o Id de um usuario especifico a partir de
 	 * usuario e senha
 	 * 
-	 * @see {@link Login}
+	 * @see {@link LoginController}
 	 * 
 	 * @param nomeUsuario  a ser consultado
 	 * @param senhaUsuario a ser consultado

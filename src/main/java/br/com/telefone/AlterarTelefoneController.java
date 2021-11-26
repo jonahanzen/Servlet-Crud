@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet({ "/AlterarTelefone", "/alterartelefone" })
-public class AlterarTelefone extends HttpServlet {
+public class AlterarTelefoneController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private TelefoneRepository telefoneRepository = new TelefoneRepository();
 
-	public AlterarTelefone() {
+	public AlterarTelefoneController() {
 		super();
 	}
 

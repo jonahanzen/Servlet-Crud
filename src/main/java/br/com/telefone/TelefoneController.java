@@ -31,7 +31,7 @@ public class TelefoneController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// Verifica se id do usuario, ddd, numero, tipo de telefone para inserir
-		// Telefone nao saoo nulos
+		// Telefone nao sao nulos
 		boolean parametros = (request.getParameter("idUsuario") != null && request.getParameter("ddd") != null
 				&& request.getParameter("numero") != null && request.getParameter("tipoTelefone") != null);
 

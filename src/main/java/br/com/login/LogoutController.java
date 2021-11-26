@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet({ "/Logout", "/logout" })
-public class Logout extends HttpServlet {
+public class LogoutController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
   
-    public Logout() {
+    public LogoutController() {
         super();
     }
 

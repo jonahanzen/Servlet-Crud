@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebFilter("/*")
-public class LoginFilter implements Filter {
+public class LoginFilterController implements Filter {
 
-	public LoginFilter() {
+	public LoginFilterController() {
 	}
 
 	public void destroy() {

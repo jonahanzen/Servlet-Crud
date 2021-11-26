@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet({ "/AlterarUsuario", "/alterarusuario" })
-public class AlterarUsuario extends HttpServlet {
+public class AlterarUsuarioController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private UsuarioRepository usuarioRepository = new UsuarioRepository();
 
-	public AlterarUsuario() {
+	public AlterarUsuarioController() {
 		super();
 	}
 
