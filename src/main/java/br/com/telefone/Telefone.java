@@ -9,25 +9,6 @@ public class Telefone {
 	private String tipo;
 	private Integer usuarioId;
 
-	public Telefone() {
-	}
-
-	public Telefone(Integer id, Integer ddd, String numero, String tipo, Integer usuarioId) {
-		super();
-		this.id = id;
-		this.ddd = ddd;
-		this.numero = numero;
-		this.tipo = tipo;
-		this.usuarioId = usuarioId;
-	}
-
-	public Telefone(Integer ddd, String numero, String tipo, Integer usuarioId) {
-		super();
-		this.ddd = ddd;
-		this.numero = numero;
-		this.tipo = tipo;
-		this.usuarioId = usuarioId;
-	}
 
 	public Integer getDdd() {
 		return ddd;

@@ -12,32 +12,7 @@ public class Usuario {
 	private String senha;
 	private List<Telefone> telefones;
 
-	public Usuario() {
-	}
 
-	public Usuario(String usuario, String email, String senha) {
-		super();
-		this.usuario = usuario;
-		this.email = email;
-		this.senha = senha;
-	}
-
-	public Usuario(Integer id, String usuario, String email, String senha, List<Telefone> telefones) {
-		super();
-		this.id = id;
-		this.usuario = usuario;
-		this.email = email;
-		this.senha = senha;
-		this.telefones = telefones;
-	}
-
-	public Usuario(String usuario, String email, String senha, List<Telefone> telefones) {
-		super();
-		this.usuario = usuario;
-		this.email = email;
-		this.senha = senha;
-		this.telefones = telefones;
-	}
 
 	public Integer getId() {
 		return id;

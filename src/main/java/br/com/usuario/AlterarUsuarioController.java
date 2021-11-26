@@ -31,8 +31,7 @@ public class AlterarUsuarioController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		
+			
 		Integer idUsuario   = Integer.parseInt(request.getParameter("id"));
 		String nomeUsuario  = request.getParameter("usuario");
 		String emailUsuario = request.getParameter("email");
