@@ -1,6 +1,7 @@
 package br.com.usuario;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,10 +22,14 @@ public class RemoverUsuarioController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("usuario");
 		if (request.getParameter("id") != null) {
 			int idUsuario = Integer.parseInt(request.getParameter("id"));
-			usuarioRepository.deletarUsuario(idUsuario);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("usuario");
+			try {
+				usuarioRepository.deletarUsuario(idUsuario);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			dispatcher.forward(request, response);
 		}
 	}

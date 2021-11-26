@@ -22,15 +22,15 @@ public class UsuarioController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("todosusuarios.jsp");
 
 		try {
 			List<Usuario> todosUsuarios = usuarioRepository.todosUsuarios();
 			request.setAttribute("listaUsuario", todosUsuarios);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("todosusuarios.jsp");
-			dispatcher.forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		dispatcher.forward(request, response);
 
 	}
 
@@ -43,9 +43,11 @@ public class UsuarioController extends HttpServlet {
 			String nome = request.getParameter("nome");
 			String email = request.getParameter("email");
 			String senha = request.getParameter("senha");
-			usuarioRepository.incluirUsuario(nome, email, senha);
-
-			System.out.println(request.getRequestURL().toString());
+			try {
+				usuarioRepository.incluirUsuario(nome, email, senha);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			response.sendRedirect(request.getRequestURI().toString());
 		}
 

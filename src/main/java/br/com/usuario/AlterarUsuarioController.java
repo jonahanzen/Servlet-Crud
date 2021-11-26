@@ -1,6 +1,7 @@
 package br.com.usuario;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,11 +22,15 @@ public class AlterarUsuarioController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		Integer idUsuario = Integer.parseInt(request.getParameter("id"));
-		Usuario usuario = usuarioRepository.consultarUnicoUsuario(idUsuario);
-		request.setAttribute("tempUsuario", usuario);
+		Usuario usuario;
 		RequestDispatcher dispatcher = request.getRequestDispatcher("alterarusuario.jsp");
+		try {
+			usuario = usuarioRepository.consultarUnicoUsuario(idUsuario);
+			request.setAttribute("tempUsuario", usuario);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		dispatcher.forward(request, response);
 	}
 
@@ -36,7 +41,11 @@ public class AlterarUsuarioController extends HttpServlet {
 		String nomeUsuario  = request.getParameter("usuario");
 		String emailUsuario = request.getParameter("email");
 		String senhaUsuario = request.getParameter("senha");
-		usuarioRepository.alterarUsuario(idUsuario, nomeUsuario, emailUsuario, senhaUsuario);
+		try {
+			usuarioRepository.alterarUsuario(idUsuario, nomeUsuario, emailUsuario, senhaUsuario);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		response.sendRedirect("usuario");
 	}
 

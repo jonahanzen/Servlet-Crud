@@ -1,6 +1,7 @@
 package br.com.login;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,11 +36,23 @@ public class LoginController extends HttpServlet {
 		if (nomeUsuario != null && senhaUsuario != null) {
 			// Se nao mandar email, consultar no banco
 			if (emailUsuario == null) {
-			idUsuario = usuarioRepository.consultarIdUsuario(nomeUsuario, senhaUsuario);
+			try {
+				idUsuario = usuarioRepository.consultarIdUsuario(nomeUsuario, senhaUsuario);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			} else {
 				//Se mandar email, incluir no banco
-				usuarioRepository.incluirUsuario(nomeUsuario, emailUsuario, senhaUsuario);
-				idUsuario = usuarioRepository.consultarIdUsuario(nomeUsuario, senhaUsuario);
+				try {
+					usuarioRepository.incluirUsuario(nomeUsuario, emailUsuario, senhaUsuario);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				try {
+					idUsuario = usuarioRepository.consultarIdUsuario(nomeUsuario, senhaUsuario);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 			
 			

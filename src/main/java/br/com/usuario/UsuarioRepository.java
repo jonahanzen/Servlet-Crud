@@ -19,11 +19,6 @@ public class UsuarioRepository {
 
 	private Connection conn;
 
-	public UsuarioRepository() {
-		if (conn == null) {
-			conn = Conexao.conectar();
-		}
-	}
 
 	/**
 	 * Metodo responsavel por incluir um usuario no banco de dados O metodo recebe
@@ -31,8 +26,10 @@ public class UsuarioRepository {
 	 * senha
 	 * 
 	 * @param usuario com usuario, email e senha
+	 * @throws SQLException 
 	 */
-	public void incluirUsuario(Usuario usuario) {
+	public void incluirUsuario(Usuario usuario) throws SQLException {
+		conn = Conexao.conectar();
 		final String sql = "INSERT INTO USUARIO " + "(usuario, email, senha) " + "VALUES (?,?,?);";
 
 		try {
@@ -45,6 +42,8 @@ public class UsuarioRepository {
 		} catch (Exception e) {
 			System.out.println("Falha ao Incluir Usuario");
 			e.printStackTrace();
+		} finally {
+			conn.close();
 		}
 	}
 
@@ -54,8 +53,10 @@ public class UsuarioRepository {
 	 * @param usuario a ser incluido
 	 * @param email   a ser incluido
 	 * @param senha   a ser incluido
+	 * @throws SQLException 
 	 */
-	public void incluirUsuario(String usuario, String email, String senha) {
+	public void incluirUsuario(String usuario, String email, String senha) throws SQLException {
+		conn = Conexao.conectar();
 		String sql = null;
 		sql = "INSERT INTO USUARIO " + "(usuario, email, senha) " + "VALUES (?,?,?);";
 		try {
@@ -68,6 +69,8 @@ public class UsuarioRepository {
 		} catch (Exception e) {
 			System.out.println("Falha ao Incluir Usuario");
 			e.printStackTrace();
+		} finally {
+			conn.close();
 		}
 	}
 
@@ -80,8 +83,10 @@ public class UsuarioRepository {
 	 * @param nomeUsuario  a ser consultado
 	 * @param senhaUsuario a ser consultado
 	 * @return Id do usuario da consulta
+	 * @throws SQLException 
 	 */
-	public Integer consultarIdUsuario(String nomeUsuario, String senhaUsuario) {
+	public Integer consultarIdUsuario(String nomeUsuario, String senhaUsuario) throws SQLException {
+		conn = Conexao.conectar();
 		String sql = null;
 		sql = "SELECT id FROM Usuario WHERE usuario = ? AND senha = ?;";
 		try {
@@ -97,6 +102,8 @@ public class UsuarioRepository {
 		} catch (Exception e) {
 			System.out.println("Nao foi possivel encontrar o usuario");
 			e.printStackTrace();
+		} finally {
+			conn.close();
 		}
 
 		return null;
@@ -107,8 +114,10 @@ public class UsuarioRepository {
 	 * 
 	 * @param idUsuario a ser consultado
 	 * @return Usuario da consulta
+	 * @throws SQLException 
 	 */
-	public Usuario consultarUnicoUsuario(int idUsuario) {
+	public Usuario consultarUnicoUsuario(int idUsuario) throws SQLException {
+		conn = Conexao.conectar();
 		final String sql = "SELECT * FROM Usuario where id = ?;";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -125,6 +134,8 @@ public class UsuarioRepository {
 		} catch (Exception e) {
 			System.out.println("Nao foi possivel consultar usuario");
 			e.printStackTrace();
+		} finally {
+			conn.close();
 		}
 		return null;
 	}
@@ -135,6 +146,7 @@ public class UsuarioRepository {
 	 * @return List de usuarios da consulta
 	 */
 	public List<Usuario> todosUsuarios() throws SQLException {
+		conn = Conexao.conectar();
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		final String sql = "SELECT * FROM Usuario ORDER BY id;";
 		try {
@@ -150,6 +162,8 @@ public class UsuarioRepository {
 		} catch (SQLException e) {
 			System.out.println("Falha ao consultar usuarios");
 			e.printStackTrace();
+		} finally {
+			conn.close();
 		}
 		return usuarios;
 	}
@@ -161,8 +175,10 @@ public class UsuarioRepository {
 	 * @param novoNome  para alterar
 	 * @param novoEmail para alterar
 	 * @param novaSenha para alterar
+	 * @throws SQLException 
 	 */
-	public void alterarUsuario(int idUsuario, String novoNome, String novoEmail, String novaSenha) {
+	public void alterarUsuario(int idUsuario, String novoNome, String novoEmail, String novaSenha) throws SQLException {
+		conn = Conexao.conectar();
 		String sql = "UPDATE Usuario " + "SET usuario=?, email=?, senha=? " + "WHERE id=?";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -172,7 +188,10 @@ public class UsuarioRepository {
 			stmt.setInt(4, idUsuario);
 			stmt.execute();
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Nao foi possivel alterar o Usuario");
+		} finally {
+			conn.close();
 		}
 	}
 
@@ -180,17 +199,26 @@ public class UsuarioRepository {
 	 * Metodo responsavel por deletar um usuario no banco de dados
 	 * 
 	 * @param idUsuario a ser deletado
+	 * @throws SQLException 
 	 */
-	public void deletarUsuario(int idUsuario) {
+	public void deletarUsuario(int idUsuario) throws SQLException {
+		conn = Conexao.conectar();
 		TelefoneRepository telefoneRepository = new TelefoneRepository();
-		telefoneRepository.deletarTelefoneUsuario(idUsuario);
+		try {
+			telefoneRepository.deletarTelefoneUsuario(idUsuario);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		String sql = "DELETE FROM usuario where id = ?";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, idUsuario);
 			stmt.execute();
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Nao foi possivel remover o usuario");
+		} finally {
+			conn.close();
 		}
 	}
 

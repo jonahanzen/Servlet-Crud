@@ -1,6 +1,7 @@
 package br.com.telefone;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,9 +23,14 @@ public class AlterarTelefoneController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Integer idTelefone = Integer.parseInt(request.getParameter("id"));
-		Telefone telefone = telefoneRepository.consultarUnicoTelefone(idTelefone);
-		request.setAttribute("tempTelefone", telefone);
+		Telefone telefone;
 		RequestDispatcher dispatcher = request.getRequestDispatcher("alterartelefone.jsp");
+		try {
+			telefone = telefoneRepository.consultarUnicoTelefone(idTelefone);
+			request.setAttribute("tempTelefone", telefone);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		dispatcher.forward(request, response);
 	}
 
@@ -35,7 +41,11 @@ public class AlterarTelefoneController extends HttpServlet {
 		int ddd = Integer.parseInt(request.getParameter("ddd"));
 		String numero = request.getParameter("numero");
 		String tipo = request.getParameter("tipoTelefone");
-		telefoneRepository.alterarTelefone(telefoneId, ddd, numero, tipo);
+		try {
+			telefoneRepository.alterarTelefone(telefoneId, ddd, numero, tipo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		response.sendRedirect("telefone");
 	}
 

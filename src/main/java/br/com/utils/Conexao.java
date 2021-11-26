@@ -6,8 +6,10 @@ import java.sql.SQLException;
 
 public class Conexao {
 
+	private static Connection conn;
+	
 	public static Connection conectar() {
-		Connection conn = null;
+		
 		final String url = "jdbc:postgresql://localhost:5432/exerciciousuario";
 		final String user = "postgres";
 		final String password = "admin";
@@ -21,5 +23,5 @@ public class Conexao {
 		}
 		return conn;
 	}
-
+	
 }
