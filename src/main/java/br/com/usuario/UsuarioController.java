@@ -44,12 +44,9 @@ public class UsuarioController extends HttpServlet {
 				request.getParameter("senha").isBlank() || request.getParameter("senha") != null ) {
 			response.setHeader("Refresh", "1;url=index.jsp");
 		} else {
-			nome = request.getParameter("nome");
-			email = request.getParameter("email");
-			senha = request.getParameter("senha");
-			System.out.println(nome);
-			System.out.println(email);
-			System.out.println(senha);
+			nome = request.getParameter("nome").trim();
+			email = request.getParameter("email").trim();
+			senha = request.getParameter("senha").trim();
 			try {
 				usuarioRepository.incluirUsuario(nome, email, senha);
 				response.sendRedirect(request.getRequestURI().toString());

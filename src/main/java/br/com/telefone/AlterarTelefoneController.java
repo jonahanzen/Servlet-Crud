@@ -39,8 +39,8 @@ public class AlterarTelefoneController extends HttpServlet {
 
 		int telefoneId = Integer.parseInt(request.getParameter("telefoneId"));
 		int ddd = Integer.parseInt(request.getParameter("ddd"));
-		String numero = request.getParameter("numero");
-		String tipo = request.getParameter("tipoTelefone");
+		String numero = request.getParameter("numero").trim();
+		String tipo = request.getParameter("tipoTelefone").trim();
 		try {
 			telefoneRepository.alterarTelefone(telefoneId, ddd, numero, tipo);
 		} catch (SQLException e) {

@@ -52,13 +52,9 @@ public class AlterarUsuarioController extends HttpServlet {
 			response.setHeader("Refresh", "1;url=usuario");
 		} else {
 			idUsuario = Integer.parseInt(request.getParameter("id"));
-			nomeUsuario = request.getParameter("usuario");
-			emailUsuario = request.getParameter("email");
-			senhaUsuario = request.getParameter("senha");
-			System.out.println(idUsuario);
-			System.out.println(nomeUsuario);
-			System.out.println(emailUsuario);
-			System.out.println(senhaUsuario);
+			nomeUsuario = request.getParameter("usuario").trim();
+			emailUsuario = request.getParameter("email").trim();
+			senhaUsuario = request.getParameter("senha").trim();
 			try {
 				usuarioRepository.alterarUsuario(idUsuario, nomeUsuario, emailUsuario, senhaUsuario);
 				response.sendRedirect("usuario");

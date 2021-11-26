@@ -45,8 +45,8 @@ public class TelefoneController extends HttpServlet {
 		if (parametros == true) {
 			int usuarioId = Integer.parseInt(request.getParameter("idUsuario"));
 			int ddd = Integer.parseInt(request.getParameter("ddd"));
-			String numero = request.getParameter("numero");
-			String tipo = request.getParameter("tipoTelefone");
+			String numero = request.getParameter("numero").trim();
+			String tipo = request.getParameter("tipoTelefone").trim();
 			try {
 				telefoneRepository.incluirTelefone(ddd, numero, tipo, usuarioId);
 			} catch (SQLException e) {
