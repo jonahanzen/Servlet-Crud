@@ -21,7 +21,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="nome">Nome</label>
-                                <input type="text" name="nome" required class="form-control" id="usuario" placeholder="Nome Usuário">
+                                <input type="text" name="nome" required class="form-control" maxlength="50" id="usuario" placeholder="Nome Usuário">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>

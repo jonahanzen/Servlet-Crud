@@ -27,7 +27,7 @@
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="ddd">DDD</label>
-                                    <input type="number" required class="form-control" name="ddd" id="ddd" min="0" max="99" placeholder="DDD">
+                                    <input type="number" required class="form-control" name="ddd" id="ddd" min="1" max="99" placeholder="DDD">
                                 </div>
 
                                 <div class="form-group col">

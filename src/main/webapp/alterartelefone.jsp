@@ -48,6 +48,11 @@
         </div>
 
         <script>
+        //Script para aceitar somente numeros no campo numero
+        $('input[name="numero"]').on('input', function(event) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+        
             $(document).ready(function() {
                 // desativa o botao submit do form 
                 $(':input[name=submit]').prop('disabled', false);
