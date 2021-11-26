@@ -84,6 +84,7 @@ public class TelefoneRepository {
 	public Telefone consultarUnicoTelefone(int idTelefone) throws SQLException {
 		conn = Conexao.conectar();
 		final String sql = "SELECT * FROM Telefone where id = ?;";
+		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, idTelefone);

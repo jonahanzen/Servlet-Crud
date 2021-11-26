@@ -57,8 +57,8 @@ public class UsuarioRepository {
 	 */
 	public void incluirUsuario(String usuario, String email, String senha) throws SQLException {
 		conn = Conexao.conectar();
-		String sql = null;
-		sql = "INSERT INTO USUARIO " + "(usuario, email, senha) " + "VALUES (?,?,?);";
+		final String sql = "INSERT INTO USUARIO " + "(usuario, email, senha) " + "VALUES (?,?,?);";
+		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, usuario);
@@ -87,8 +87,8 @@ public class UsuarioRepository {
 	 */
 	public Integer consultarIdUsuario(String nomeUsuario, String senhaUsuario) throws SQLException {
 		conn = Conexao.conectar();
-		String sql = null;
-		sql = "SELECT id FROM Usuario WHERE usuario = ? AND senha = ?;";
+		final String sql = "SELECT id FROM Usuario WHERE usuario = ? AND senha = ?;";
+		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, nomeUsuario);
@@ -119,6 +119,7 @@ public class UsuarioRepository {
 	public Usuario consultarUnicoUsuario(int idUsuario) throws SQLException {
 		conn = Conexao.conectar();
 		final String sql = "SELECT * FROM Usuario where id = ?;";
+		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, idUsuario);
@@ -149,6 +150,7 @@ public class UsuarioRepository {
 		conn = Conexao.conectar();
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		final String sql = "SELECT * FROM Usuario ORDER BY id;";
+		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
@@ -179,7 +181,8 @@ public class UsuarioRepository {
 	 */
 	public void alterarUsuario(int idUsuario, String novoNome, String novoEmail, String novaSenha) throws SQLException {
 		conn = Conexao.conectar();
-		String sql = "UPDATE Usuario " + "SET usuario=?, email=?, senha=? " + "WHERE id=?";
+		final String sql = "UPDATE Usuario " + "SET usuario=?, email=?, senha=? " + "WHERE id=?";
+		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, novoNome);
@@ -204,6 +207,7 @@ public class UsuarioRepository {
 	public void deletarUsuario(int idUsuario) throws SQLException {
 		conn = Conexao.conectar();
 		TelefoneRepository telefoneRepository = new TelefoneRepository();
+		
 		try {
 			telefoneRepository.deletarTelefoneUsuario(idUsuario);
 		} catch (SQLException e1) {

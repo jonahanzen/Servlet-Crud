@@ -36,13 +36,13 @@ public class LoginController extends HttpServlet {
 		if (nomeUsuario != null && senhaUsuario != null) {
 			// Se nao mandar email, consultar no banco
 			if (emailUsuario == null) {
-			try {
-				idUsuario = usuarioRepository.consultarIdUsuario(nomeUsuario, senhaUsuario);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+				try {
+					idUsuario = usuarioRepository.consultarIdUsuario(nomeUsuario, senhaUsuario);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			} else {
-				//Se mandar email, incluir no banco
+				// Se mandar email, incluir no banco
 				try {
 					usuarioRepository.incluirUsuario(nomeUsuario, emailUsuario, senhaUsuario);
 				} catch (SQLException e) {
@@ -54,8 +54,7 @@ public class LoginController extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-			
-			
+
 			request.getSession().setAttribute("senhaUsuario", senhaUsuario);
 			request.getSession().setAttribute("emailUsuario", emailUsuario);
 			request.getSession().setAttribute("idUsuario", idUsuario);

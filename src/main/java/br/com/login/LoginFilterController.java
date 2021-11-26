@@ -28,10 +28,10 @@ public class LoginFilterController implements Filter {
 		HttpSession session = request.getSession(false);
 		String loginURI = request.getContextPath() + "/login";
 
-		boolean estaLogado = session != null && session.getAttribute("usuario") != null && session.getAttribute("idUsuario") != null;
+		boolean estaLogado = session != null && session.getAttribute("usuario") != null
+				&& session.getAttribute("idUsuario") != null;
 		boolean loginRequest = request.getRequestURI().equals(loginURI);
 
-		
 		if (estaLogado || loginRequest) {
 			chain.doFilter(request, response);
 		} else {
