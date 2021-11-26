@@ -36,21 +36,28 @@ public class UsuarioController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Verifica se nome, email e senha para inserir usuario nao sao nulos
-		boolean parametros = (request.getParameter("nome") != null && request.getParameter("email") != null
-				&& request.getParameter("senha") != null);
-		if (parametros == true) {
-			String nome = request.getParameter("nome");
-			String email = request.getParameter("email");
-			String senha = request.getParameter("senha");
+		String nome = null;
+		String email = null;
+		String senha = null;
+		
+		if (request.getParameter("nome").isBlank() || request.getParameter("nome") != null ||
+				request.getParameter("senha").isBlank() || request.getParameter("senha") != null ) {
+			response.setHeader("Refresh", "1;url=index.jsp");
+		} else {
+			nome = request.getParameter("nome");
+			email = request.getParameter("email");
+			senha = request.getParameter("senha");
+			System.out.println(nome);
+			System.out.println(email);
+			System.out.println(senha);
 			try {
 				usuarioRepository.incluirUsuario(nome, email, senha);
+				response.sendRedirect(request.getRequestURI().toString());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			response.sendRedirect(request.getRequestURI().toString());
 		}
-
+			
 	}
-
+		
 }

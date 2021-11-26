@@ -24,10 +24,10 @@ public class RemoverUsuarioController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("usuario");
-		PrintWriter out = response.getWriter();
 		if (request.getParameter("id") != null) {
 			int idUsuario = Integer.parseInt(request.getParameter("id"));
 			if (idUsuario == (Integer) request.getSession().getAttribute("idUsuario")) {
+				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Voce nao pode excluir o seu proprio usuario!');");
 				out.println("</script>");

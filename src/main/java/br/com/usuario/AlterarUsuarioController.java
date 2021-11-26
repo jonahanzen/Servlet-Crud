@@ -1,6 +1,7 @@
 package br.com.usuario;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
@@ -36,17 +37,35 @@ public class AlterarUsuarioController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-			
-		Integer idUsuario   = Integer.parseInt(request.getParameter("id"));
-		String nomeUsuario  = request.getParameter("usuario");
-		String emailUsuario = request.getParameter("email");
-		String senhaUsuario = request.getParameter("senha");
-		try {
-			usuarioRepository.alterarUsuario(idUsuario, nomeUsuario, emailUsuario, senhaUsuario);
-		} catch (SQLException e) {
-			e.printStackTrace();
+		Integer idUsuario = null;
+		String nomeUsuario = null;
+		String emailUsuario = null;
+		String senhaUsuario = null;
+
+		// Verifica se nome e senha nao sao vazios/nulos
+		if (request.getParameter("usuario").isBlank() || request.getParameter("usuario") == null
+				|| request.getParameter("senha").isBlank() || request.getParameter("senha") == null) {
+			PrintWriter out = response.getWriter();
+			out.println("<script type=\"text/javascript\">");
+			out.println("alert('Favor inserir dados corretos!');");
+			out.println("</script>");
+			response.setHeader("Refresh", "1;url=usuario");
+		} else {
+			idUsuario = Integer.parseInt(request.getParameter("id"));
+			nomeUsuario = request.getParameter("usuario");
+			emailUsuario = request.getParameter("email");
+			senhaUsuario = request.getParameter("senha");
+			System.out.println(idUsuario);
+			System.out.println(nomeUsuario);
+			System.out.println(emailUsuario);
+			System.out.println(senhaUsuario);
+			try {
+				usuarioRepository.alterarUsuario(idUsuario, nomeUsuario, emailUsuario, senhaUsuario);
+				response.sendRedirect("usuario");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		response.sendRedirect("usuario");
 	}
 
 }
