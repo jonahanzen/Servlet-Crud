@@ -45,9 +45,9 @@ public class LoginController extends HttpServlet {
 			out.println("</script>");
 			response.setHeader("Refresh", "1;url=login");
 		} else {
-			nomeUsuario = (String) request.getParameter("usuario").trim();
-			senhaUsuario = (String) request.getParameter("senha").trim();
-			emailUsuario = (String) request.getParameter("email").trim();
+			nomeUsuario = (String) request.getParameter("usuario");
+			senhaUsuario = (String) request.getParameter("senha");
+			emailUsuario = (String) request.getParameter("email");
 			if (nomeUsuario != null && senhaUsuario != null) {
 				// Se nao mandar email, consultar no banco
 				if (emailUsuario == null) {
