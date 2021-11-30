@@ -48,7 +48,8 @@ public class TelefoneController extends HttpServlet {
 			String numero = request.getParameter("numero").trim();
 			String tipo = request.getParameter("tipoTelefone").trim();
 			try {
-				telefoneRepository.incluirTelefone(ddd, numero, tipo, usuarioId);
+				Telefone telefone = new Telefone(ddd, numero, tipo, usuarioId);
+				telefoneRepository.incluirTelefone(telefone);;
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

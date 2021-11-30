@@ -23,10 +23,6 @@ public class Usuario {
 	}
 
 
-
-
-
-
 	public Integer getId() {
 		return id;
 	}

@@ -8,6 +8,18 @@ public class Telefone {
 	private String numero;
 	private String tipo;
 	private Integer usuarioId;
+	
+	public Telefone() {
+	}
+
+
+	public Telefone(Integer ddd, String numero, String tipo, Integer usuarioId) {
+		super();
+		this.ddd = ddd;
+		this.numero = numero;
+		this.tipo = tipo;
+		this.usuarioId = usuarioId;
+	}
 
 
 	public Integer getDdd() {
