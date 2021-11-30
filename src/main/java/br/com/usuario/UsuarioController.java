@@ -38,6 +38,7 @@ public class UsuarioController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
+		
 		String nome = request.getParameter("nome");
 		String email = request.getParameter("email");
 		String senha = request.getParameter("senha");
@@ -45,8 +46,9 @@ public class UsuarioController extends HttpServlet {
 		if (nome != null && senha != null) {
 			if (nome.trim().length() > 0 && senha.trim().length() > 0) {
 				try {
+					Usuario usuario = new Usuario(nome, email, senha);
 					RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-					usuarioRepository.incluirUsuario(nome, email, senha);
+					usuarioRepository.incluirUsuario(usuario);
 					dispatcher.forward(request, response);
 				} catch (SQLException e) {
 					e.printStackTrace();

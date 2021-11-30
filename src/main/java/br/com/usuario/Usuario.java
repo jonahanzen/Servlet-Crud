@@ -11,6 +11,19 @@ public class Usuario {
 	private String email;
 	private String senha;
 	private List<Telefone> telefones;
+	
+	public Usuario() {
+	}
+	
+	public Usuario(String usuario, String email, String senha) {
+		super();
+		this.usuario = usuario;
+		this.email = email;
+		this.senha = senha;
+	}
+
+
+
 
 
 
