@@ -26,16 +26,16 @@
                         <form action="login" method="post">
 
                             <label for="usuario" class="text-primary text-center col-form-label">Usuario</label>
-                            <input type="text" required class="form-control" name="usuario" placeholder="Insira o seu usuário">
+                            <input type="text" id="usuario-registro" required class="form-control" name="usuario" placeholder="Insira o seu usuário">
 
                             <label for="senha" class="text-primary col-form-label">Senha</label>
-                            <input type="password" name="senha" required class="form-control" placeholder="Insira a sua senha">
+                            <input type="password" id="senha-registro" name="senha" required class="form-control" placeholder="Insira a sua senha">
 
 
                             <label for="email" class="text-primary col-form-label">Email</label>
-                            <input type="email" required class="form-control" name="email" placeholder="Insira o seu email">
+                            <input type="email" id="email-registro" required class="form-control" name="email" placeholder="Insira o seu email">
 
-                            <input type="submit" class="btn btn-primary form-control" style="margin-top: 4rem;" value="Registrar">
+                            <input type="submit" id="submit-registro" name="submit" class="btn btn-primary form-control" style="margin-top: 4rem;" value="Registrar">
 
                         </form>
                     </div>
@@ -46,10 +46,12 @@
                         <form action="login" method="post">
                             <h4 class="text-danger text-center">Login</h4>
                             <label for="usuario" class="text-primary text-center col-form-label">Usuario</label>
-                            <input type="text" required class="form-control" name="usuario" placeholder="Insira o seu usuário">
+                            <input type="text" id="usuario-login" required class="form-control" name="usuario" placeholder="Insira o seu usuário">
+                            
                             <label for="senha" class="text-primary col-form-label">Senha</label>
-                            <input type="password" name="senha" required class="form-control" placeholder="Insira a sua senha">
-                            <input type="submit" class="btn btn-primary form-control" style="margin-top: 4rem;" value="Login">
+                            <input type="password" id="senha-login" name="senha" required class="form-control" placeholder="Insira a sua senha">
+                            
+                            <input type="submit" id="submit-login" class="btn btn-primary form-control" name="submit" style="margin-top: 4rem;" value="Login">
                         </form>
                     </div>
 
@@ -93,6 +95,46 @@
             $('input[type="tel" ]').on('input', function(event) {
                 this.value = this.value.replace(/[^0-9]/g, '');
             });
+
+			// script para o form de registro 
+            $(document).ready(function() {
+                // desativa o botao submit do form 
+                $(':input[id=submit-registro]').prop('disabled', true);
+                // toda vez que apertar alguma tecla, dentro de um input
+                $(':input').keyup(function() {
+                    //verifica tamanho do do campo usuario e senha
+                    let usuario = $('input[id=usuario-registro]').val().length;
+                    let senha = $('input[id=senha-registro]').val().length;
+                    if (usuario < 1 || senha < 1) {
+                        // desabilita (continua desabilitado) 
+                        $(':input[id=submit-registro]').prop('disabled', true);
+                    } else {
+                        // habilita 
+                        $(':input[id=submit-registro]').prop('disabled', false);
+                    }
+                });
+            });
+
+        	// script para o form de login 
+            $(document).ready(function() {
+                // desativa o botao submit do form 
+                $(':input[id=submit-login]').prop('disabled', true);
+                // toda vez que apertar alguma tecla, dentro de um input
+                $(':input').keyup(function() {
+                    //verifica tamanho do do campo usuario e senha
+                    let usuario = $('input[id=usuario-login]').val().length;
+                    let senha = $('input[id=senha-login]').val().length;
+                    if (usuario < 1 || senha < 1) {
+                        // desabilita (continua desabilitado) 
+                        $(':input[id=submit-login]').prop('disabled', true);
+                    } else {
+                        // habilita 
+                        $(':input[id=submit-login]').prop('disabled', false);
+                    }
+                });
+            });
+
+       
         </script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
