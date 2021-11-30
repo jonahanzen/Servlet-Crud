@@ -1,6 +1,7 @@
 package br.com.usuario;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -36,25 +37,27 @@ public class UsuarioController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String nome = null;
-		String email = null;
-		String senha = null;
-		
-		if (request.getParameter("nome").isBlank() || request.getParameter("nome") != null ||
-				request.getParameter("senha").isBlank() || request.getParameter("senha") != null ) {
-			response.setHeader("Refresh", "1;url=index.jsp");
-		} else {
-			nome = request.getParameter("nome").trim();
-			email = request.getParameter("email").trim();
-			senha = request.getParameter("senha").trim();
-			try {
-				usuarioRepository.incluirUsuario(nome, email, senha);
-				response.sendRedirect(request.getRequestURI().toString());
-			} catch (SQLException e) {
-				e.printStackTrace();
+		PrintWriter out = response.getWriter();
+		String nome = request.getParameter("nome");
+		String email = request.getParameter("email");
+		String senha = request.getParameter("senha");
+
+		if (nome != null && senha != null) {
+			if (nome.trim().length() > 0 && senha.trim().length() > 0) {
+				try {
+					RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+					usuarioRepository.incluirUsuario(nome, email, senha);
+					dispatcher.forward(request, response);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} else {
+				out.println("<script type=\"text/javascript\">");
+				out.println("alert('Favor inserir dados validos!');");
+				out.println("</script>");
+				response.setHeader("Refresh", "1;url=index.jsp");
 			}
-		}
-			
+		} 
 	}
-		
+
 }
