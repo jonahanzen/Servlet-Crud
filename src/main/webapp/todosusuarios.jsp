@@ -33,8 +33,8 @@
                                 </th>
                                 <td>${tempUsuario.usuario}</td>
                                 <td>${tempUsuario.email}</td>
-                                <td><a href="removerusuario?id=${tempUsuario.id}" onclick="return confirm('Deseja deletar o Usuario ${tempUsuario.usuario}?')">Remover</a></td>
-                                <td><a href="alterarusuario?id=${tempUsuario.id}">Alterar</a></td>
+                                <td class="bg-danger"><a href="removerusuario?id=${tempUsuario.id}" onclick="return confirm('Deseja deletar o Usuario ${tempUsuario.usuario}?')">Remover</a></td>
+                                <td class="bg-warning"><a href="alterarusuario?id=${tempUsuario.id}">Alterar</a></td>
                             </tr>
                         </c:forEach>
                     </tbody>

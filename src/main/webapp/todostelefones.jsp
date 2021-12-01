@@ -37,8 +37,8 @@
                                     <td>${telefone.ddd}</td>
                                     <td>${telefone.numero}</td>
                                     <td>${telefone.tipo}</td>
-                                    <td><a href="removertelefone?idTelefone=${telefone.id}" onclick="return confirm('Deseja deletar o numero ${telefone.numero}?')">Remover</a></td>
-                                    <td><a href="alterartelefone?id=${telefone.id}">Alterar</a></td>
+                                    <td class="bg-danger"><a href="removertelefone?idTelefone=${telefone.id}" onclick="return confirm('Deseja deletar o numero ${telefone.numero}?')">Remover</a></td>
+                                    <td class="bg-warning"><a href="alterartelefone?id=${telefone.id}">Alterar</a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
