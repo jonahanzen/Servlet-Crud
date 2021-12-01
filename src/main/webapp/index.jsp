@@ -27,7 +27,7 @@
 					<div class="card-body">
 						<h3 class="card-title">Bem vindo ${sessionScope.usuario} !</h3>
 						<h4 class="text-center text-primary">Voce e o nosso
-							${sessionScope.idUsuario} Usuario!</h4>
+							${sessionScope.idUsuario}º Usuario!</h4>
 					</div>
 				</div>
 			</div>

@@ -10,27 +10,22 @@ import java.util.List;
 import br.com.utils.Conexao;
 
 /**
- * Classe responsavel por conter os metodos de CRUD no banco de dados de {@link Telefone} 
+ * Classe responsavel por conter os metodos de CRUD no banco de dados de
+ * {@link Telefone}
  */
 public class TelefoneRepository {
 
-	private Connection conn;
-
-
 	/**
-	 * Metodo responsavel por incluir um telefone no banco de dados
-	 * O metodo recebe um objeto telefone com as propriedades
-	 * Integer Ddd, String Numero, String tipoTelefone e Integer usuarioId
+	 * Metodo responsavel por incluir um telefone no banco de dados O metodo recebe
+	 * um objeto telefone com as propriedades Integer Ddd, String Numero, String
+	 * tipoTelefone e Integer usuarioId
 	 * 
 	 * @param telefone com ddd, numero, tipo e usuario_id
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public void incluirTelefone(Telefone telefone) throws SQLException {
-		conn = Conexao.conectar();
-		final String sql = "INSERT INTO Telefone " + "(ddd, numero, tipo, usuario_id) " + "VALUES (?, ?, ?, ?);";
-
-		try {
-			PreparedStatement stmt = conn.prepareStatement(sql);
+		final String SQL = "INSERT INTO Telefone " + "(ddd, numero, tipo, usuario_id) " + "VALUES (?, ?, ?, ?);";
+		try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(SQL)) {
 			stmt.setInt(1, telefone.getDdd());
 			stmt.setString(2, telefone.getNumero());
 			stmt.setString(3, telefone.getTipo());
@@ -39,69 +34,60 @@ public class TelefoneRepository {
 		} catch (Exception e) {
 			System.out.println("Nao foi possivel incluir o telefone");
 			e.printStackTrace();
-		} finally {
-			conn.close();
 		}
 	}
 
 	/**
 	 * Metodo responsavel por incluir um telefone no banco de dados
 	 * 
-	 * @param ddd Telefone a ser incluido
-	 * @param numero Telefone a ser incluido
+	 * @param ddd          Telefone a ser incluido
+	 * @param numero       Telefone a ser incluido
 	 * @param tipoTelefone Telefone a ser incluido
-	 * @param usuarioId Telefone a ser incluido
-	 * @throws SQLException 
-	 */ 
+	 * @param usuarioId    Telefone a ser incluido
+	 * @throws SQLException
+	 */
 	public void incluirTelefone(int ddd, String numero, String tipoTelefone, int usuarioId) throws SQLException {
-		conn = Conexao.conectar();
-		final String sql = "INSERT INTO TELEFONE " + "(ddd, numero, tipo, usuario_id) " + "VALUES (?, ?, ?, ?);";
-
-		try {
-			PreparedStatement stmt = conn.prepareStatement(sql);
+		final String SQL = "INSERT INTO TELEFONE " + "(ddd, numero, tipo, usuario_id) " + "VALUES (?, ?, ?, ?);";
+		try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(SQL)) {
 			stmt.setInt(1, ddd);
 			stmt.setString(2, numero);
 			stmt.setString(3, tipoTelefone);
 			stmt.setInt(4, usuarioId);
 			stmt.execute();
-
 		} catch (Exception e) {
 			System.out.println("Falha ao Incluir Telefone");
 			e.printStackTrace();
-		} finally {
-			conn.close();
 		}
 	}
-	
+
 	/**
 	 * Metodo responsavel por consultar um unico usuario no banco de dados
 	 * 
 	 * 
 	 * @param idTelefone a ser consultado
-	 * @return Telefone da consulta ou nulo caso nao ache 
-	 * @throws SQLException 
+	 * @return Telefone da consulta ou nulo caso nao ache
+	 * @throws SQLException
 	 */
 	public Telefone consultarUnicoTelefone(int idTelefone) throws SQLException {
-		conn = Conexao.conectar();
-		final String sql = "SELECT * FROM Telefone where id = ?;";
-		
-		try {
-			PreparedStatement stmt = conn.prepareStatement(sql);
+
+		final String SQL = "SELECT * FROM Telefone where id = ?;";
+
+		try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(SQL)) {
 			stmt.setInt(1, idTelefone);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				Telefone telefone = new Telefone();
-				telefone.setId(rs.getInt("id"));
-				telefone.setDdd(rs.getInt("ddd"));
-				telefone.setNumero(rs.getString("numero"));
-				telefone.setTipo(rs.getString("tipo"));
-				return telefone;	
+
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					Telefone telefone = new Telefone();
+					telefone.setId(rs.getInt("id"));
+					telefone.setDdd(rs.getInt("ddd"));
+					telefone.setNumero(rs.getString("numero"));
+					telefone.setTipo(rs.getString("tipo"));
+					return telefone;
+				}
 			}
 		} catch (Exception e) {
 			System.out.println("Nao foi possivel consultar Telefone");
 			e.printStackTrace();
-		} finally {
-			conn.close();
 		}
 		return null;
 	}
@@ -111,17 +97,15 @@ public class TelefoneRepository {
 	 * 
 	 * 
 	 * @return List de todos os telefones da consulta
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public List<Telefone> todosTelefones() throws SQLException {
-		conn = Conexao.conectar();
+		final String SQL = "SELECT * FROM telefone ORDER BY id;";
 		List<Telefone> telefones = new ArrayList<Telefone>();
-		final String sql = "SELECT * FROM telefone ORDER BY id;";
 
-		try {
-			PreparedStatement stmt;
-			stmt = conn.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery();
+		try (Connection conn = Conexao.conectar();
+				PreparedStatement stmt = conn.prepareStatement(SQL);
+				ResultSet rs = stmt.executeQuery();) {
 			while (rs.next()) {
 				Telefone telefone = new Telefone();
 				telefone.setId(rs.getInt("id"));
@@ -134,29 +118,23 @@ public class TelefoneRepository {
 		} catch (SQLException e) {
 			System.out.println("Falha ao consultar telefones");
 			e.printStackTrace();
-		} finally {
-			conn.close();
 		}
 		return telefones;
 	}
 
-	
 	/**
-	 * Metodo responsavel por alterar um telefone no banco de dados
-	 * O metodo recebe o id do telefone atual e os parametros que serao alterados
+	 * Metodo responsavel por alterar um telefone no banco de dados O metodo recebe
+	 * o id do telefone atual e os parametros que serao alterados
 	 * 
 	 * @param idTelefone a ser alterado
-	 * @param novoDdd para alterar o telefone
+	 * @param novoDdd    para alterar o telefone
 	 * @param novoNumero para alterar o telefone
-	 * @param novoTipo para alterar o telefone
-	 * @throws SQLException 
+	 * @param novoTipo   para alterar o telefone
+	 * @throws SQLException
 	 */
 	public void alterarTelefone(int idTelefone, int novoDdd, String novoNumero, String novoTipo) throws SQLException {
-		conn = Conexao.conectar();
-		final String sql = "UPDATE Telefone " + "SET ddd = ?, numero = ?, tipo = ? " + "WHERE id = ?;";
-
-		try {
-			PreparedStatement stmt = conn.prepareStatement(sql);
+		final String SQL = "UPDATE Telefone " + "SET ddd = ?, numero = ?, tipo = ? " + "WHERE id = ?;";
+		try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(SQL);) {
 			stmt.setInt(1, novoDdd);
 			stmt.setString(2, novoNumero);
 			stmt.setString(3, novoTipo);
@@ -165,8 +143,6 @@ public class TelefoneRepository {
 		} catch (Exception e) {
 			System.out.println("Nao foi possivel alterar o telefone");
 			e.printStackTrace();
-		} finally {
-			conn.close();
 		}
 	}
 
@@ -174,21 +150,17 @@ public class TelefoneRepository {
 	 * Metodo responsavel por deletar um telefone no banco de dados
 	 * 
 	 * @param idTelefone a ser deletado
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public void deletarTelefone(int idTelefone) throws SQLException {
-		conn = Conexao.conectar();
-		final String sql = "DELETE FROM telefone where id = ?;";
+		final String SQL = "DELETE FROM telefone where id = ?;";
 
-		try {
-			PreparedStatement stmt = conn.prepareStatement(sql);
+		try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(SQL)) {
 			stmt.setInt(1, idTelefone);
 			stmt.execute();
 		} catch (Exception e) {
 			System.out.println("Nao foi possivvel remover o telefone");
 			e.printStackTrace();
-		} finally {
-			conn.close();
 		}
 	}
 
@@ -196,21 +168,17 @@ public class TelefoneRepository {
 	 * Metodo responsavel por deletar um telefone a partir do id do usuario
 	 * 
 	 * @param usuarioId a partir do qual vai ser deletado o telefone
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public void deletarTelefoneUsuario(int usuarioId) throws SQLException {
-		conn = Conexao.conectar();
-		final String sql = "DELETE FROM telefone where usuario_id = ?;";
-
-		try {
-			PreparedStatement stmt = conn.prepareStatement(sql);
+		final String SQL = "DELETE FROM telefone where usuario_id = ?;";
+		
+		try(Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(SQL)) {
 			stmt.setInt(1, usuarioId);
 			stmt.execute();
 		} catch (Exception e) {
 			System.out.println("Nao foi possivel remover o telefone");
 			e.printStackTrace();
-		} finally {
-			conn.close();
 		}
 	}
 
