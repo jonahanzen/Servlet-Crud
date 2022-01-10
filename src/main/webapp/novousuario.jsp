@@ -21,8 +21,8 @@
                     <form action="usuario" method="post">
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="nome">Nome</label>
-                                <input type="text" name="nome" required class="form-control" maxlength="50" id="usuario" placeholder="Nome Usuário">
+                                <label for="nome">Usuario</label>
+                                <input type="text" name="usuario" required class="form-control" maxlength="50" id="usuario" placeholder="Usuário">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>

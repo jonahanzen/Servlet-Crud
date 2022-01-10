@@ -17,10 +17,6 @@ public class RemoverUsuarioController extends HttpServlet {
 
 	private UsuarioRepository usuarioRepository = new UsuarioRepository();
 
-	public RemoverUsuarioController() {
-		super();
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("usuario");

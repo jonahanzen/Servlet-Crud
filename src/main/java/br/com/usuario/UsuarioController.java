@@ -18,9 +18,6 @@ public class UsuarioController extends HttpServlet {
 
 	private UsuarioRepository usuarioRepository = new UsuarioRepository();
 
-	public UsuarioController() {
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("todosusuarios.jsp");
@@ -28,38 +25,41 @@ public class UsuarioController extends HttpServlet {
 		try {
 			List<Usuario> todosUsuarios = usuarioRepository.todosUsuarios();
 			request.setAttribute("listaUsuario", todosUsuarios);
+			dispatcher.forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		dispatcher.forward(request, response);
 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		
-		String nome = request.getParameter("nome");
-		String email = request.getParameter("email");
-		String senha = request.getParameter("senha");
+		try {
+			PrintWriter out = response.getWriter();
+			RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 
-		if (nome != null && senha != null) {
-			if (nome.trim().length() > 0 && senha.trim().length() > 0) {
-				try {
-					Usuario usuario = new Usuario(nome, email, senha);
-					RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+			String nomeUsuario = request.getParameter("usuario");
+			String email = request.getParameter("email");
+			String senha = request.getParameter("senha");
+			Usuario usuario = new Usuario(nomeUsuario, email, senha);
+
+			// Verifica todos os campos e tenta incluir o usuario caso nao exista no banco
+			// de dados
+			if (nomeUsuario != null && senha != null && nomeUsuario.trim().length() > 0 && senha.trim().length() > 0) {
+				System.out.println(usuarioRepository.consultarUsuarioPorUsuarioOuEmail(nomeUsuario, email));
+				if (!usuarioRepository.consultarUsuarioPorUsuarioOuEmail(nomeUsuario, email)) {
 					usuarioRepository.incluirUsuario(usuario);
 					dispatcher.forward(request, response);
-				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			} else {
 				out.println("<script type=\"text/javascript\">");
-				out.println("alert('Favor inserir dados validos!');");
+				out.println("alert('Usuario ja existe ou os dados estao invalidos, favor tente novamente');");
 				out.println("</script>");
 				response.setHeader("Refresh", "1;url=index.jsp");
-			}
-		} 
-	}
 
+			}
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -16,10 +16,6 @@ public class AlterarTelefoneController extends HttpServlet {
 
 	private TelefoneRepository telefoneRepository = new TelefoneRepository();
 
-	public AlterarTelefoneController() {
-		super();
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Integer idTelefone = Integer.parseInt(request.getParameter("id"));

@@ -17,30 +17,28 @@ public class AlterarUsuarioController extends HttpServlet {
 
 	private UsuarioRepository usuarioRepository = new UsuarioRepository();
 
-	public AlterarUsuarioController() {
-		super();
-	}
-
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Integer idUsuario = Integer.parseInt(request.getParameter("id"));
-		Usuario usuario;
-		RequestDispatcher dispatcher = request.getRequestDispatcher("alterarusuario.jsp");
 		try {
+			Integer idUsuario = Integer.parseInt(request.getParameter("id"));
+			Usuario usuario;
+			RequestDispatcher dispatcher = request.getRequestDispatcher("alterarusuario.jsp");
 			usuario = usuarioRepository.consultarUnicoUsuario(idUsuario);
 			request.setAttribute("tempUsuario", usuario);
-		} catch (SQLException e) {
+			dispatcher.forward(request, response);
+		} catch (SQLException | NumberFormatException e) {
 			e.printStackTrace();
 		}
-		dispatcher.forward(request, response);
 	}
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Integer idUsuario = null;
-		String nomeUsuario = null;
-		String emailUsuario = null;
-		String senhaUsuario = null;
+		Integer idUsuario = Integer.parseInt(request.getParameter("id"));
+		String nomeUsuario = request.getParameter("usuario").trim();
+		String emailUsuario = request.getParameter("email").trim();
+		String senhaUsuario = request.getParameter("senha").trim();
 
 		// Verifica se nome e senha nao sao vazios/nulos
 		if (request.getParameter("usuario").isBlank() || request.getParameter("usuario") == null
@@ -51,14 +49,10 @@ public class AlterarUsuarioController extends HttpServlet {
 			out.println("</script>");
 			response.setHeader("Refresh", "1;url=usuario");
 		} else {
-			idUsuario = Integer.parseInt(request.getParameter("id"));
-			nomeUsuario = request.getParameter("usuario").trim();
-			emailUsuario = request.getParameter("email").trim();
-			senhaUsuario = request.getParameter("senha").trim();
 			try {
 				usuarioRepository.alterarUsuario(idUsuario, nomeUsuario, emailUsuario, senhaUsuario);
 				response.sendRedirect("usuario");
-			} catch (SQLException e) {
+			} catch (SQLException | IOException e) {
 				e.printStackTrace();
 			}
 		}

@@ -17,10 +17,6 @@ public class TelefoneController extends HttpServlet {
 
 	private TelefoneRepository telefoneRepository = new TelefoneRepository();
 
-	public TelefoneController() {
-		super();
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		List<Telefone> todosTelefones;
@@ -49,7 +45,8 @@ public class TelefoneController extends HttpServlet {
 			String tipo = request.getParameter("tipoTelefone").trim();
 			try {
 				Telefone telefone = new Telefone(ddd, numero, tipo, usuarioId);
-				telefoneRepository.incluirTelefone(telefone);;
+				telefoneRepository.incluirTelefone(telefone);
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

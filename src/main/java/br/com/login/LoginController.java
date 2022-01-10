@@ -18,10 +18,6 @@ public class LoginController extends HttpServlet {
 
 	private UsuarioRepository usuarioRepository = new UsuarioRepository();
 
-	public LoginController() {
-		super();
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -34,35 +30,57 @@ public class LoginController extends HttpServlet {
 		String emailUsuario = request.getParameter("email");
 		String senhaUsuario = request.getParameter("senha");
 
-		if (nomeUsuario.isBlank() || nomeUsuario == null || senhaUsuario.isBlank() || senhaUsuario == null) {
-			PrintWriter out = response.getWriter();
-			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Favor inserir dados validos!');");
-			out.println("</script>");
-			response.setHeader("Refresh", "1;url=login");
-		} else {
-			// Se nao mandar email, consultar no banco
-			if (emailUsuario == null) {
-				try {
-					idUsuario = usuarioRepository.consultarIdUsuario(nomeUsuario, senhaUsuario);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+		try {
+			if (nomeUsuario.isBlank() || nomeUsuario == null || senhaUsuario.isBlank() || senhaUsuario == null
+					|| !usuarioRepository.consultarUsuarioPorUsuarioOuEmail(null, emailUsuario)) {
+				PrintWriter out = response.getWriter();
+				out.println("<script type=\"text/javascript\">");
+				out.println("alert('Favor inserir dados validos');");
+				out.println("location='login.jsp';");
+				out.println("</script>");
+				out.close();
 			} else {
-				// Se mandar email, incluir no banco
-				try {
-					usuarioRepository.incluirUsuario(nomeUsuario, emailUsuario, senhaUsuario);
-					idUsuario = usuarioRepository.consultarIdUsuario(nomeUsuario, senhaUsuario);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				// Se nao mandar email, consultar no banco
+				if (emailUsuario == null) {
+					try {
+						idUsuario = usuarioRepository.consultarIdUsuario(nomeUsuario, senhaUsuario);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				} else {
+					// Se mandar email, incluir no banco
+					try {
+						//TODO Mandar mensagem caso o usuario insira login incorreto
+						if (usuarioRepository.consultarUsuarioPorUsuarioOuEmail(nomeUsuario, emailUsuario)) {
+							PrintWriter out = response.getWriter();
+							out.println("<script type=\"text/javascript\">");
+							out.println("alert('Este usuario ja existe!');");
+							out.println("location='login.jsp';");
+							out.println("</script>");
+							out.close();
+						} else {
+							try {
+								usuarioRepository.incluirUsuario(nomeUsuario, emailUsuario, senhaUsuario);
+								idUsuario = usuarioRepository.consultarIdUsuario(nomeUsuario, senhaUsuario);
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 
+				}
+				request.getSession().setAttribute("senhaUsuario", senhaUsuario);
+				request.getSession().setAttribute("emailUsuario", emailUsuario);
+				request.getSession().setAttribute("idUsuario", idUsuario);
+				request.getSession().setAttribute("usuario", nomeUsuario);
+				response.sendRedirect("index.jsp");
 			}
-			request.getSession().setAttribute("senhaUsuario", senhaUsuario);
-			request.getSession().setAttribute("emailUsuario", emailUsuario);
-			request.getSession().setAttribute("idUsuario", idUsuario);
-			request.getSession().setAttribute("usuario", nomeUsuario);
-			response.sendRedirect("index.jsp");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 	}

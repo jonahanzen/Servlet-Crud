@@ -7,7 +7,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>ExercicioUsuario</name>
-	<description>Projeto final para capacitação Recife</description>
+	
+	<description> Crud utilizando Servlet e JSP </description>
 
 	<dependencies>
 		<dependency>
