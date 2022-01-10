@@ -51,7 +51,7 @@
             // toda vez que apertar alguma tecla, dentro de um input
             $(':input').keyup(function() {
                 //verifica tamanho do campo nome e senha
-                var nome = $('input[name=nome]').val().length;
+                var nome = $('input[name=usuario]').val().length;
                 var senha = $('input[name=senha]').val().length;
                 if ( nome < 1 || senha < 1) {
                     // desabilita (continua desabilitado) 

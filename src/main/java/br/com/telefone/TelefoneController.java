@@ -1,6 +1,7 @@
 package br.com.telefone;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -44,9 +45,18 @@ public class TelefoneController extends HttpServlet {
 			String numero = request.getParameter("numero").trim();
 			String tipo = request.getParameter("tipoTelefone").trim();
 			try {
-				Telefone telefone = new Telefone(ddd, numero, tipo, usuarioId);
-				telefoneRepository.incluirTelefone(telefone);
-				
+				PrintWriter out = response.getWriter();
+				if (!telefoneRepository.consultarTelefonePorNumero(numero)) {
+					Telefone telefone = new Telefone(ddd, numero, tipo, usuarioId);
+					telefoneRepository.incluirTelefone(telefone);
+				} else {
+					out.println("<script type=\"text/javascript\">");
+					out.println("alert('Telefone ja existe no banco de dados');");
+					out.println("location='telefone';");
+					out.println("</script>");
+					out.close();
+				}
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

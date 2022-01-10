@@ -91,6 +91,21 @@ public class TelefoneRepository {
 		}
 		return null;
 	}
+	
+	public boolean consultarTelefonePorNumero(String numero) throws SQLException {
+		final String SQL = "SELECT count(*) FROM Telefone where numero = ? LIMIT 1;";
+
+		try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(SQL)) {
+			stmt.setString(1, numero);
+			try (ResultSet rs = stmt.executeQuery()) {
+				rs.next();
+				return rs.getInt(1) == 1;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
+	}
 
 	/**
 	 * Metodo responsavel por consultar todos os telefones no banco de dados

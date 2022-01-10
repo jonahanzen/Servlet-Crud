@@ -148,6 +148,29 @@ public class UsuarioRepository {
 			return true;
 		}
 	}
+	/**
+	 * Metodo responsavel por consultar a existencia de um usuario por usuario e email
+	 * 
+	 * @param usuario a ser consultado
+	 * @param email a ser consultado
+	 * @return true caso exista, false caso nao exista
+	 * @throws SQLException
+	 */
+	public boolean consultarUsuarioPorUsuarioeEmail(String usuario, String email) throws SQLException {
+		final String SQL = "SELECT count(*) FROM Usuario where usuario = ? AND email = ? LIMIT 1;";
+
+		try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(SQL)) {
+			stmt.setString(1, usuario);
+			stmt.setString(2, email);
+			try (ResultSet rs = stmt.executeQuery()) {
+				rs.next();
+				return rs.getInt(1) == 1;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
+	}
 
 	/**
 	 * Metodo responsavel por consultar todos os usuarios
